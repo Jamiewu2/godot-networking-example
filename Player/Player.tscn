@@ -1,12 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Player/Move.gd" type="Script" id=1]
+[ext_resource path="res://Player/MovementSM/Move.gd" type="Script" id=1]
 [ext_resource path="res://Player/PlayerStats.gd" type="Script" id=2]
 [ext_resource path="res://Player/PlayerState.gd" type="Script" id=3]
 [ext_resource path="res://Utils/State/StateMachine.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Player/Idle.gd" type="Script" id=5]
+[ext_resource path="res://Player/MovementSM/Idle.gd" type="Script" id=5]
 [ext_resource path="res://Player/Player.gd" type="Script" id=6]
 [ext_resource path="res://Player/PlayerStateMachine.gd" type="Script" id=7]
+[ext_resource path="res://Attacks/SphereAttack.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Player/AttackSM/Attack.gd" type="Script" id=9]
+[ext_resource path="res://Utils/State/AttackStateMachine.gd" type="Script" id=10]
+[ext_resource path="res://Player/AttackSM/Idle.gd" type="Script" id=11]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -16,6 +20,7 @@ albedo_color = Color( 0, 0.67451, 0.0745098, 1 )
 [sub_resource type="BoxShape" id=3]
 
 [node name="Player" type="KinematicBody"]
+collision_mask = 39
 script = ExtResource( 6 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
@@ -33,11 +38,29 @@ script = ExtResource( 2 )
 [node name="PlayerState" type="Node" parent="PlayerController"]
 script = ExtResource( 3 )
 
-[node name="PlayerStateMachine" parent="PlayerController" instance=ExtResource( 4 )]
+[node name="MovementSM" parent="PlayerController" instance=ExtResource( 4 )]
 script = ExtResource( 7 )
 
-[node name="Idle" type="Node" parent="PlayerController/PlayerStateMachine"]
+[node name="Idle" type="Node" parent="PlayerController/MovementSM"]
 script = ExtResource( 5 )
 
-[node name="Move" type="Node" parent="PlayerController/PlayerStateMachine"]
+[node name="Move" type="Node" parent="PlayerController/MovementSM"]
 script = ExtResource( 1 )
+
+[node name="AttackSM" parent="PlayerController" instance=ExtResource( 4 )]
+script = ExtResource( 10 )
+
+[node name="Idle" type="Node" parent="PlayerController/AttackSM"]
+script = ExtResource( 11 )
+
+[node name="Attack" type="Node" parent="PlayerController/AttackSM"]
+script = ExtResource( 9 )
+
+[node name="SphereAttack" parent="." instance=ExtResource( 8 )]
+
+[node name="Area" parent="SphereAttack" index="1"]
+collision_layer = 8
+collision_mask = 34
+[connection signal="on_attack_finished" from="SphereAttack" to="PlayerController/AttackSM/Attack" method="_on_SphereAttack_on_attack_finished"]
+
+[editable path="SphereAttack"]

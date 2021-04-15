@@ -26,8 +26,3 @@ func update(delta: float):
 		
 	else:
 		state_machine.change_state(state_machine.IDLE)
-#
-#	if Input.is_action_just_pressed("ui_roll"):
-#		state_machine.change_state(state_machine.ROLL)
-#	elif Input.is_action_just_pressed("ui_attack"):
-#		state_machine.change_state(state_machine.ATTACK)

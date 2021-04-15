@@ -4,12 +4,15 @@ var cube_scene: PackedScene = preload("res://Objects/Cube.tscn")
 onready var timer: Timer = $Timer
 
 export var max_spawn_count: int = 5
+export var spawn_speed: float = 0.4
+
 var spawn_count: int = 0
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 const FORCE: int = 1000
 const RNG_SEED: int = 1234
 
 func _ready():
+	timer.wait_time = spawn_speed
 	rng.set_seed(RNG_SEED)
 	
 func spawn_cube():

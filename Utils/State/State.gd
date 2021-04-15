@@ -9,5 +9,5 @@ func run_on_enter():
 func run_on_exit():
 	return
 
-func update(delta: float):
+func update(_delta: float):
 	pass
