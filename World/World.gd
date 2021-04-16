@@ -24,8 +24,8 @@ func spawn_cube():
 	cube.add_central_force(impulse_vector * FORCE)
 	self.add_child(cube)
 	
-func _process(delta):
-	if Input.is_action_just_pressed("ui_spawn"):
+func _physics_process(delta):
+	if InputHandler.is_spawn_button_pressed:
 		spawn_count = 0
 		timer.start()
 

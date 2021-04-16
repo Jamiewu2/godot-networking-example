@@ -27,4 +27,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 22.9789, 0 )
 shadow_enabled = true
 shadow_color = Color( 0.6, 0.6, 0.6, 1 )
-[connection signal="after_physics" from="Player" to="Camera" method="_on_Player_after_physics"]
