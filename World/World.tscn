@@ -37,8 +37,8 @@ targetPath = NodePath("../Player")
 
 [node name="Spawner" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
-max_spawn_count = 50
-spawn_speed = 0.1
+max_spawn_count = 500
+spawn_speed = 0.05
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -50,3 +50,4 @@ script = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 22.9789, 0 )
 shadow_enabled = true
 shadow_color = Color( 0.6, 0.6, 0.6, 1 )
+[connection signal="after_physics" from="Player" to="Camera" method="_on_Player_after_physics"]

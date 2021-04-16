@@ -9,7 +9,6 @@ func _ready():
 	assert(target != null)
 	dist = target.translation - translation
 
-# Follows the target without jumping on the y axis
-func _physics_process(delta):
+func _on_Player_after_physics():
 	translation.x = target.translation.x - dist.x
 	translation.z = target.translation.z - dist.z
