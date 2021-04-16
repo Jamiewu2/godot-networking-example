@@ -14,7 +14,7 @@ func clamp_vec3(vec: Vector3) -> Vector3:
 	return vec
 
 func update(delta: float):
-	var input_vector = get_input_vector()
+	var input_vector = inputHandler.input_vector
 	
 	if input_vector != Vector3.ZERO:
 		playerStats.input_vector = input_vector

@@ -60,6 +60,10 @@ config/name="Godot Networking Example"
 run/main_scene="res://World/World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+InputHandler="*res://Singletons/InputHandler.gd"
+
 [input]
 
 ui_spawn={
