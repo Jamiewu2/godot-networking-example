@@ -7,6 +7,6 @@ enum NETWORK_MODE {
 	LOCAL
 }
 
-export var debug: bool = true
-export var always_rollback: bool = true
+export var DEBUG: bool = false
+export var DEBUG_ALWAYS_ROLLBACK: bool = true
 var network_type: int = NETWORK_MODE.LOCAL

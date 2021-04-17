@@ -1,11 +1,10 @@
-extends Node
+extends SaveableNode
 class_name StateMachine
 
 export var states: Dictionary = {}
 var current_state: State
-var previous_states: Array = [] #boo no array static typing
+var previous_states: Array = []
 export var active: bool = true
-
 onready var parent = get_parent()
 
 func _ready():
@@ -57,3 +56,14 @@ func _transition_state(old_state: State, new_state: State) -> State:
 	old_state.run_on_exit()
 	new_state.run_on_enter()
 	return new_state
+
+# not going to save states dict, assuming states will not be added dynamically
+func save_game_state() -> Array:
+	var game_state = [current_state, previous_states, active]
+	return game_state
+	
+func load_game_state(game_state: Array):
+	self.current_state = game_state[0]
+	self.previous_states = game_state[1]
+	self.active = game_state[2]
+	

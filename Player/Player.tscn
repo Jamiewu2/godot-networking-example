@@ -6,10 +6,10 @@
 [ext_resource path="res://Utils/State/StateMachine.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Player/MovementSM/Idle.gd" type="Script" id=5]
 [ext_resource path="res://Player/Player.gd" type="Script" id=6]
-[ext_resource path="res://Player/PlayerStateMachine.gd" type="Script" id=7]
+[ext_resource path="res://Player/MovementSM.gd" type="Script" id=7]
 [ext_resource path="res://Attacks/SphereAttack.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Player/AttackSM/Attack.gd" type="Script" id=9]
-[ext_resource path="res://Player/AttackStateMachine.gd" type="Script" id=10]
+[ext_resource path="res://Player/AttackSM.gd" type="Script" id=10]
 [ext_resource path="res://Player/AttackSM/Idle.gd" type="Script" id=11]
 
 [sub_resource type="CubeMesh" id=1]

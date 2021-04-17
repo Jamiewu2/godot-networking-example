@@ -3,6 +3,8 @@ extends Node
 var input_vector: Vector3 = Vector3.ZERO
 var is_attack_button_pressed: bool = false
 var is_spawn_button_pressed: bool = false
+var is_rewind_time_button_pressed: bool = false
+var is_rewind_time_button_just_pressed: bool = false
 
 
 func _ready():
@@ -10,7 +12,7 @@ func _ready():
 	set_process_priority(-1)
 
 func _unhandled_input(event):
-	if GlobalSettings.debug:
+	if GlobalSettings.DEBUG:
 		print("[InputHandler]: " + str(event))
 		
 	input_vector = _get_input_vector()
@@ -33,25 +35,71 @@ func set_button_press_state():
 	else:
 		is_spawn_button_pressed = false
 		
+	if Input.is_action_pressed("ui_rewind"):
+		is_rewind_time_button_pressed = true
+		is_rewind_time_button_just_pressed = true
+	else:
+		is_rewind_time_button_pressed = false
+
+#some jank code to reimplement this functionality
+var is_just_pressed: bool = true
+func handle_rewind_button_just_pressed():
+	if InputHandler.is_rewind_time_button_pressed and is_just_pressed:
+		is_just_pressed = false
+	elif InputHandler.is_rewind_time_button_pressed and not is_just_pressed:
+		is_rewind_time_button_just_pressed = false
+	elif not InputHandler.is_rewind_time_button_pressed:
+		is_just_pressed = true
+
 ################################
 # ITS TIME FOR JANK NETCODE
 ################################
 
+
+
+
 var num_rollback: int = 2
 var max_rollback_buffer: int = 10
 
+var rewind_time: bool = false
+
+# hack, just setting players for now
+# should instead loop through all scene objects
+func set_scene_physics_process(active: bool):
+	var player = get_tree().current_scene.get_node("Player")
+	player.set_sm_active(active)
+	
+func toggle_rewind_time():
+	rewind_time = !rewind_time
+	set_scene_physics_process(!rewind_time)
+	
+func hacky_rewind_time():
+	if len(state_history) == 0:
+		toggle_rewind_time()
+		return
+	var game_state = state_history[-1]["game_state"]
+	GameStateHandler.load_game_state(game_state)
+	set_scene_physics_process(false)
+	state_history.pop_back()
+
 func _physics_process(delta):
-	add_state_to_history()
-	if GlobalSettings.always_rollback:
-		debug_stuff()
-		#todo
-		pass
+	handle_rewind_button_just_pressed()
+
+	if InputHandler.is_rewind_time_button_just_pressed:
+		toggle_rewind_time()
+
+	if rewind_time:
+		hacky_rewind_time()
+	else:
+		add_state_to_history()
+		if GlobalSettings.DEBUG_ALWAYS_ROLLBACK:
+			debug_stuff()
 
 var count: int = 0
 var state_history: Array = []
 
 func debug_stuff():
-	var game_state = GameStateHandler.serialize_game_state()
+	var game_state = state_history[-1]["game_state"]
 	GameStateHandler.load_game_state(game_state)
 
 func add_state_to_history():
@@ -169,7 +217,9 @@ func add_state_to_history():
 # ---- Ex: pressing Attack while already attacking
 
 
-
+###############
+#THINGS TO DO #
+###############
 
 func rollback_deterministic(server_packet: Dictionary): 
 	pass

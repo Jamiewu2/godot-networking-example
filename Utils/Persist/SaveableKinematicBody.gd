@@ -6,8 +6,8 @@ class_name SaveableKinematicBody
 
 #TODO use godot scene groups to make this a lot easier???
 
-func save_state():
+func save_game_state():
 	pass
 
-func load_state(game_state):
+func load_game_state(game_state):
 	pass
