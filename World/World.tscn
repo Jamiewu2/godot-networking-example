@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://World/Floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Spawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World/MarginContainer.gd" type="Script" id=4]
 [ext_resource path="res://World/Camera.gd" type="Script" id=5]
 
 [node name="World" type="Spatial"]
@@ -27,3 +28,46 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 22.9789, 0 )
 shadow_enabled = true
 shadow_color = Color( 0.6, 0.6, 0.6, 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 590.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+margin_bottom = 580.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPSLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 548.0
+margin_bottom = 562.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MemoryLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 566.0
+margin_bottom = 580.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

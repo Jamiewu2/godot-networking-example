@@ -43,26 +43,35 @@ var max_rollback_buffer: int = 10
 func _physics_process(delta):
 	add_state_to_history()
 	if GlobalSettings.always_rollback:
+		debug_stuff()
 		#todo
 		pass
 
 var count: int = 0
 var state_history: Array = []
 
-
+func debug_stuff():
+	var game_state = GameStateHandler.serialize_game_state()
+	GameStateHandler.load_game_state(game_state)
 
 func add_state_to_history():
 	count+=1
 	
-	var packet: Dictionary = {
-		"count": count,
+	var input_state = {
 		"input_vector": input_vector,
 		"is_attack_button_pressed": is_attack_button_pressed,
 		"is_spawn_button_pressed": is_spawn_button_pressed
 	}
+
+	var game_state = GameStateHandler.serialize_game_state()
+	
+	var packet = {
+		"count": count,
+		"input_state": input_state,
+		"game_state": game_state
+	}
 	
 	state_history.append(packet)
-	print(len(state_history))
 
 # Deterministic + Client-Side Prediction + Rollback (GGPO)
 # (GGPO and related are p2p networking solutions, concepts are the same though)
