@@ -16,4 +16,3 @@ func _physics_process(delta):
 	var memory_in_mb = round(memory/(1024 * 1024))
 	fpsLabel.text = "FPS: " + str(fps)
 	memoryLabel.text = "Memory: " + str(memory_in_mb) + " MB"
-	

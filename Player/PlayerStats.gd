@@ -6,6 +6,7 @@ export var ACCELERATION: int = 70
 export var MAX_SPEED: int = 25
 export var FRICTION: int = 50
 
+# not consts
 export var default_velocity: Vector3 = Vector3.ZERO
 export var default_input_vector: Vector3 = Vector3.ZERO
 var velocity: Vector3 setget set_velocity, get_velocity
@@ -28,5 +29,5 @@ func get_velocity() -> Vector3:
 func set_input_vector(input_vector: Vector3): 
 	stats["input_vector"] = input_vector
 	
-func get_input_vector():
+func get_input_vector() -> Vector3:
 	return stats["input_vector"]

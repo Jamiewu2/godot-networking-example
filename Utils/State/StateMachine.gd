@@ -5,7 +5,7 @@ export var states: Dictionary = {}
 var current_state: State
 var previous_states: Array = []
 export var active: bool = true
-onready var parent = get_parent()
+var duration: float = 0
 
 func _ready():
 	yield(self.owner, "ready")
@@ -22,16 +22,12 @@ func _ready():
 func _physics_process(delta):
 	if active:
 		current_state.update(delta)
-
-#func _get_transition(delta):
-#	return null
-#
-#func _enter_state(new_state: State, old_state: State):
-#	pass
-#
-#func _exit_state(old_state: State, new_state: State):
-#	pass
+	duration += delta
 	
+func get_state_from_key(state_key):
+	return states[state_key]
+	
+
 func change_state(state_key, go_to_previous: bool = false):
 	if state_key == null:
 		push_error("State should not be null")
@@ -51,6 +47,7 @@ func change_state(state_key, go_to_previous: bool = false):
 		# only 1 level of previous recorded
 		previous_states[0] = current_state
 		self.current_state = _transition_state(current_state, new_state)
+	duration = 0
 		
 func _transition_state(old_state: State, new_state: State) -> State:
 	old_state.run_on_exit()
@@ -59,11 +56,13 @@ func _transition_state(old_state: State, new_state: State) -> State:
 
 # not going to save states dict, assuming states will not be added dynamically
 func save_game_state() -> Array:
-	var game_state = [current_state, previous_states, active]
+	var game_state = [current_state, previous_states, active, duration]
+	print(game_state)
 	return game_state
 	
 func load_game_state(game_state: Array):
 	self.current_state = game_state[0]
 	self.previous_states = game_state[1]
 	self.active = game_state[2]
+	self.duration = game_state[3]
 	

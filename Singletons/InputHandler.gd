@@ -10,6 +10,7 @@ var is_rewind_time_button_just_pressed: bool = false
 func _ready():
 	#run this class first
 	set_process_priority(-1)
+	
 
 func _unhandled_input(event):
 	if GlobalSettings.DEBUG:
@@ -143,6 +144,8 @@ func add_state_to_history():
 #    Periodically send game_state between server/client
 #    If divergence is over some threshold, game is desynced,
 #       -- set the client to server's state, or just kick em out
+#    If your game relies on imperfect information (ie RTS), you're going to have to do something clever
+#       -- cryptography? Have fun with this
 #
 # The server packet is back in time relative to the client
 # Client predicts what the other players are doing by last received input

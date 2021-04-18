@@ -10,7 +10,8 @@ func save_game_state() -> Array:
 		self.transform,
 		playerStats.save_game_state(),
 		movementSM.save_game_state(),
-		attackSM.save_game_state()
+		attackSM.save_game_state(),
+		sphereAttack.save_game_state()
 	]
 	return state
 
@@ -19,6 +20,7 @@ func load_game_state(game_state: Array):
 	playerStats.load_game_state(game_state[1])
 	movementSM.load_game_state(game_state[2])
 	attackSM.load_game_state(game_state[3])
+	sphereAttack.load_game_state(game_state[4])
 	
 func set_sm_active(active: bool):
 	movementSM.set_physics_process(active)

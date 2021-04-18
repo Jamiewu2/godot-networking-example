@@ -1,4 +1,4 @@
-extends Node
+extends SaveableNode
 class_name State
 
 var state_machine = null
