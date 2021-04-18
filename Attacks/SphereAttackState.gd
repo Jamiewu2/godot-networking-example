@@ -5,7 +5,7 @@ class_name SphereAttackState
 var sphereAttack: SphereAttack
 var inputHandler: InputHandler
 
-var animationTree: AnimationTree
+var animationTree: SaveableAnimationTree
 var animationState: AnimationNodeStateMachinePlayback
 var area: Area
 

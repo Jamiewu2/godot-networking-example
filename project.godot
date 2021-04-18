@@ -96,7 +96,7 @@ InputHandler="*res://Singletons/InputHandler.gd"
 GlobalSettings="*res://Singletons/GlobalSettings.gd"
 GameStateHandler="*res://Singletons/GameStateHandler.gd"
 Rewind="*res://Singletons/Rewind.gd"
-Networking="*res://Singletons/Networking.gd"
+StateHistoryHandler="*res://Singletons/StateHistoryHandler.gd"
 
 [input]
 

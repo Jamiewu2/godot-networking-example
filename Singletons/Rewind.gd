@@ -2,7 +2,8 @@ extends Node
 
 var rewind_time: bool = false
 
-
+func _ready():
+	set_process_priority(-1)
 
 func _physics_process(delta):
 	if InputHandler.is_rewind_time_button_just_pressed:
@@ -18,14 +19,14 @@ func _physics_process(delta):
 #############
 
 func hacky_rewind_time() -> int:
-	var state_history_length = len(Networking.state_history)
+	var state_history_length = len(StateHistoryHandler.state_history)
 	if state_history_length == 0:
 		return 0
 		
-	var game_state = Networking.state_history[-1]["game_state"]
+	var game_state = StateHistoryHandler.state_history[-1]["game_state"]
 	GameStateHandler.load_game_state(game_state)
 	set_scene_physics_process(false)
-	Networking.state_history.pop_back()
+	StateHistoryHandler.state_history.pop_back()
 	return state_history_length
 	
 # hack, just setting players for now

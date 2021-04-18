@@ -9,7 +9,7 @@ var is_rewind_time_button_just_pressed: bool = false
 
 func _ready():
 	#run this class first
-	set_process_priority(-1)
+	set_process_priority(-3)
 	
 
 func _unhandled_input(event):

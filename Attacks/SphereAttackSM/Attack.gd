@@ -22,5 +22,10 @@ func run_on_enter():
 func run_on_exit():
 	emit_signal("attack_finished")
 
-func attack_animation_finished():
-	state_machine.change_state(state_machine.IDLE)
+#func attack_animation_finished():
+#	state_machine.change_state(state_machine.IDLE)
+
+func update(delta: float):
+	if state_machine.duration > 0.4:
+		state_machine.change_state(state_machine.IDLE)
+	animationTree.load_game_state(state_machine.current_state.name, state_machine.duration)

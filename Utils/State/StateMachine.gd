@@ -30,12 +30,9 @@ func update(delta):
 	if active:
 		current_state.update(delta)
 	duration += delta
-	#
-	
 	
 func get_state_from_key(state_key):
 	return states[state_key]
-	
 
 func change_state(state_key, go_to_previous: bool = false):
 	if state_key == null:
@@ -65,7 +62,7 @@ func _transition_state(old_state: State, new_state: State) -> State:
 
 # not going to save states dict, assuming states will not be added dynamically
 func save_game_state() -> Array:
-	var game_state = [current_state, previous_states, active, duration]
+	var game_state = [current_state, previous_states, active, duration, current_state.name]
 	return game_state
 	
 func load_game_state(game_state: Array):
