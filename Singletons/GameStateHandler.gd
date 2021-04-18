@@ -3,7 +3,7 @@ extends Node
 const PLAYER_KEY = "player1"
 
 #returns current game_state
-func serialize_game_state() -> Dictionary:
+func get_game_state() -> Dictionary:
 	#hardcoded game_state stuff
 	var root: Viewport = get_tree().root
 	

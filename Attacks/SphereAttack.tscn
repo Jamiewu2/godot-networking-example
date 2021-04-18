@@ -89,7 +89,7 @@ nodes/Seek/position = Vector2( 396, 150.75 )
 nodes/StateMachine/node = SubResource( 11 )
 nodes/StateMachine/position = Vector2( 60, 180 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "Seek", 0, "StateMachine", "output", 0, "Seek" ]
+node_connections = [ "output", 0, "Seek", "Seek", 0, "StateMachine" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 

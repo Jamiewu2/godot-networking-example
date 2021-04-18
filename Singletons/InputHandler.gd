@@ -17,7 +17,7 @@ func _unhandled_input(event):
 		print("[InputHandler]: " + str(event))
 		
 	input_vector = _get_input_vector()
-	set_button_press_state()
+	_set_button_press_state()
 	
 func _get_input_vector() -> Vector3:
 	var input_vector = Vector3.ZERO
@@ -25,7 +25,7 @@ func _get_input_vector() -> Vector3:
 	input_vector.z = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	return input_vector.normalized()
 	
-func set_button_press_state():
+func _set_button_press_state():
 	if Input.is_action_pressed("ui_attack"):
 		is_attack_button_pressed = true
 	else:
@@ -41,6 +41,15 @@ func set_button_press_state():
 		is_rewind_time_button_just_pressed = true
 	else:
 		is_rewind_time_button_pressed = false
+		
+func get_input_state() -> Array:
+	var input_state = [input_vector, is_attack_button_pressed, is_spawn_button_pressed]
+	return input_state.duplicate()
+	
+func load_input_state(input_state: Array):
+	input_vector = input_state[0]
+	is_attack_button_pressed = input_state[1]
+	is_spawn_button_pressed = input_state[2]
 
 #some jank code to reimplement this functionality
 var is_just_pressed: bool = true
@@ -51,6 +60,9 @@ func handle_rewind_button_just_pressed():
 		is_rewind_time_button_just_pressed = false
 	elif not InputHandler.is_rewind_time_button_pressed:
 		is_just_pressed = true
+		
+func _physics_process(_delta: float):
+	handle_rewind_button_just_pressed()
 
 ################################
 # ITS TIME FOR JANK NETCODE
@@ -59,68 +71,8 @@ func handle_rewind_button_just_pressed():
 
 
 
-var num_rollback: int = 2
-var max_rollback_buffer: int = 10
 
-var rewind_time: bool = false
 
-# hack, just setting players for now
-# should instead loop through all scene objects
-func set_scene_physics_process(active: bool):
-	var player = get_tree().current_scene.get_node("Player")
-	player.set_sm_active(active)
-	
-func toggle_rewind_time():
-	rewind_time = !rewind_time
-	set_scene_physics_process(!rewind_time)
-	
-func hacky_rewind_time():
-	if len(state_history) == 0:
-		toggle_rewind_time()
-		return
-	var game_state = state_history[-1]["game_state"]
-	GameStateHandler.load_game_state(game_state)
-	set_scene_physics_process(false)
-	state_history.pop_back()
-
-func _physics_process(delta):
-	handle_rewind_button_just_pressed()
-
-	if InputHandler.is_rewind_time_button_just_pressed:
-		toggle_rewind_time()
-
-	if rewind_time:
-		hacky_rewind_time()
-	else:
-		add_state_to_history()
-		if GlobalSettings.DEBUG_ALWAYS_ROLLBACK:
-			debug_stuff()
-
-var count: int = 0
-var state_history: Array = []
-
-func debug_stuff():
-	var game_state = state_history[-1]["game_state"]
-	GameStateHandler.load_game_state(game_state)
-
-func add_state_to_history():
-	count+=1
-	
-	var input_state = {
-		"input_vector": input_vector,
-		"is_attack_button_pressed": is_attack_button_pressed,
-		"is_spawn_button_pressed": is_spawn_button_pressed
-	}
-
-	var game_state = GameStateHandler.serialize_game_state()
-	
-	var packet = {
-		"count": count,
-		"input_state": input_state,
-		"game_state": game_state
-	}
-	
-	state_history.append(packet)
 
 # Deterministic + Client-Side Prediction + Rollback (GGPO)
 # (GGPO and related are p2p networking solutions, concepts are the same though)

@@ -17,7 +17,7 @@ func _ready():
 	stats_constant["max_speed"] = MAX_SPEED
 	stats_constant["friction"] = FRICTION
 	stats["velocity"] = default_velocity
-	stats["input_vector"] = input_vector
+	stats["input_vector"] = default_input_vector
 
 # boilerplate time
 func set_velocity(new_velocity: Vector3): 

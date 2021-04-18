@@ -1,6 +1,8 @@
 extends SaveableNode
 class_name StateMachine
 
+const GROUP = "StateMachineGroup"
+
 export var states: Dictionary = {}
 var current_state: State
 var previous_states: Array = []
@@ -9,6 +11,8 @@ var duration: float = 0
 
 func _ready():
 	yield(self.owner, "ready")
+	
+	add_to_group(GROUP)
 	
 	for child in get_children():
 		child.state_machine = self
@@ -20,9 +24,14 @@ func _ready():
 	current_state = init_state
 
 func _physics_process(delta):
+	update(delta)
+	
+func update(delta):
 	if active:
 		current_state.update(delta)
 	duration += delta
+	#
+	
 	
 func get_state_from_key(state_key):
 	return states[state_key]
