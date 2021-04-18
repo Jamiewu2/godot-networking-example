@@ -8,7 +8,7 @@ func run_on_enter():
 	
 	var overlapping_bodies: Array = area.get_overlapping_bodies()
 	for body in overlapping_bodies:
-		var pos = self.global_transform.origin
+		var pos = sphereAttack.global_transform.origin
 		var body_pos = body.global_transform.origin
 		var knockback_vector: Vector3 = pos.direction_to(body_pos)
 		var impulse = knockback_vector * IMPULSE_STRENGTH
