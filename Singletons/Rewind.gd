@@ -1,11 +1,12 @@
 extends Node
 
+const GROUP_CALL_REALTIME = 2
 var rewind_time: bool = false
 
 func _ready():
-	set_process_priority(-1)
+	set_process_priority(-3)
 
-func _physics_process(delta):
+func _physics_process(_delta: float):
 	if InputHandler.is_rewind_time_button_just_pressed:
 		toggle_rewind_time()
 
@@ -20,21 +21,23 @@ func _physics_process(delta):
 
 func hacky_rewind_time() -> int:
 	var state_history_length = len(StateHistoryHandler.state_history)
-	if state_history_length == 0:
+	if state_history_length == 1:
 		return 0
 		
-	var game_state = StateHistoryHandler.state_history[-1]["game_state"]
+	var game_state = StateHistoryHandler.state_history[-2]["game_state"]
 	GameStateHandler.load_game_state(game_state)
-	set_scene_physics_process(false)
 	StateHistoryHandler.state_history.pop_back()
 	return state_history_length
 	
-# hack, just setting players for now
-# should instead loop through all scene objects
 func set_scene_physics_process(active: bool):
-	var player = get_tree().current_scene.get_node("Player")
-	player.set_sm_active(active)
+	pass
+	#get_tree().call_group_flags(GROUP_CALL_REALTIME, StateMachine.GROUP, "set_active", active)
 
 func toggle_rewind_time():
 	rewind_time = !rewind_time
+	if not rewind_time:
+		var game_state = StateHistoryHandler.state_history[-1]["game_state"]
+		GameStateHandler.load_game_state(game_state)
+		StateHistoryHandler.state_history.pop_back()
+		
 	set_scene_physics_process(!rewind_time)

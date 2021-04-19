@@ -1,6 +1,6 @@
 extends SaveableKinematicBody
 
-onready var playerStats = $"PlayerController/PlayerStats"
+onready var playerStats = $PlayerController/PlayerStats
 onready var sphereAttack = $SphereAttack
 onready var movementSM = $PlayerController/MovementSM
 onready var attackSM = $PlayerController/AttackSM

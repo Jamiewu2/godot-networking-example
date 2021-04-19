@@ -28,8 +28,12 @@ func _physics_process(delta):
 	
 func update(delta):
 	if active:
+		duration += delta
 		current_state.update(delta)
-	duration += delta
+		
+	
+func set_active(new_active: bool):
+	self.active = new_active
 	
 func get_state_from_key(state_key):
 	return states[state_key]

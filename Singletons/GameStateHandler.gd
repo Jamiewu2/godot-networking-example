@@ -25,8 +25,10 @@ func load_game_state(game_state):
 	
 	var player: SaveableKinematicBody = get_tree().get_current_scene().get_node("Player")
 	
+	
 	var player_state: Array = game_state[PLAYER_KEY]
-	player.load_game_state(player_state)
+	#load a deep copy of the player state so as to have an unmodified data set in state_history
+	player.load_game_state(deep_copy(player_state))
 	
 	if GlobalSettings.DEBUG:
 		print("[GameStateHandler]: loaded game_state: " + str(game_state))
@@ -104,4 +106,35 @@ func dict_deep_equals(d1: Dictionary, d2: Dictionary) -> bool:
 		if not is_same:
 			return false
 	return true
+	
+static func deep_copy(v):
+	var t = typeof(v)
+
+	if t == TYPE_DICTIONARY:
+		var d = {}
+		for k in v:
+			d[k] = deep_copy(v[k])
+		return d
+
+	elif t == TYPE_ARRAY:
+		var d = []
+		d.resize(len(v))
+		for i in range(len(v)):
+			d[i] = deep_copy(v[i])
+		return d
+	elif v is Vector3:
+		return Vector3(v.x, v.y, v.z)
+
+#	elif t == TYPE_OBJECT:
+#		if v.has_method("duplicate"):
+#			return v.duplicate()
+#		else:
+#			print("Found an object, but I don't know how to copy it!")
+#			return v
+
+	else:
+		# Other types should be fine,
+		# they are value types (except poolarrays maybe)
+		return v
+
 	
