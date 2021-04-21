@@ -19,14 +19,18 @@ func _physics_process(_delta: float):
 # fun stuff #
 #############
 
+const REWIND_SPEED = 2 
+
 func hacky_rewind_time() -> int:
 	var state_history_length = len(StateHistoryHandler.state_history)
-	if state_history_length == 1:
+	if state_history_length <= REWIND_SPEED:
 		return 0
 		
-	var game_state = StateHistoryHandler.state_history[-2]["game_state"]
+	var pos = -1 * (REWIND_SPEED + 1)
+	var game_state = StateHistoryHandler.state_history[pos]["game_state"]
 	GameStateHandler.load_game_state(game_state)
-	StateHistoryHandler.state_history.pop_back()
+	for i in range(REWIND_SPEED):
+		StateHistoryHandler.state_history.pop_back()
 	return state_history_length
 	
 func set_scene_physics_process(active: bool):

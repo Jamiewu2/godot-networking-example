@@ -1,10 +1,23 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://World/Floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Spawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/MarginContainer.gd" type="Script" id=4]
 [ext_resource path="res://World/Camera.gd" type="Script" id=5]
+[ext_resource path="res://World/ScreenSpaceCanvas.gd" type="Script" id=6]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+void fragment() {
+	vec4 bg = texture(SCREEN_TEXTURE, SCREEN_UV);
+	float avg = (bg.r + bg.g + bg.b)/3f;
+	COLOR = vec4(avg, avg, avg, 1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 
 [node name="World" type="Spatial"]
 
@@ -68,6 +81,17 @@ __meta__ = {
 margin_top = 566.0
 margin_bottom = 580.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GrayScaleCanvas" type="CanvasLayer" parent="."]
+script = ExtResource( 6 )
+
+[node name="ColorRect" type="ColorRect" parent="GrayScaleCanvas"]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

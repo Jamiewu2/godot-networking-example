@@ -82,16 +82,16 @@ states/Idle/position = Vector2( 442, 104 )
 transitions = [ "Idle", "Attack", SubResource( 9 ), "Attack", "Idle", SubResource( 10 ) ]
 start_node = "Idle"
 
-[sub_resource type="AnimationNodeBlendTree" id=12]
-graph_offset = Vector2( -69, 137.5 )
+[sub_resource type="AnimationNodeBlendTree" id=13]
+graph_offset = Vector2( -69, 72 )
 nodes/Seek/node = SubResource( 6 )
 nodes/Seek/position = Vector2( 396, 150.75 )
 nodes/StateMachine/node = SubResource( 11 )
 nodes/StateMachine/position = Vector2( 60, 180 )
-nodes/output/position = Vector2( 760, 140 )
+nodes/output/position = Vector2( 720, 180 )
 node_connections = [ "output", 0, "Seek", "Seek", 0, "StateMachine" ]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
 [node name="SphereAttack" type="Position3D"]
 script = ExtResource( 1 )
@@ -124,11 +124,11 @@ anims/Attack = SubResource( 4 )
 anims/Idle = SubResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 12 )
+tree_root = SubResource( 13 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/Seek/seek_position = -1.0
-parameters/StateMachine/playback = SubResource( 13 )
+parameters/StateMachine/playback = SubResource( 14 )
 script = ExtResource( 6 )
 [connection signal="attack_finished" from="SphereAttackController/SphereAttackSM/Attack" to="." method="_on_Attack_attack_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
