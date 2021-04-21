@@ -26,7 +26,7 @@ func get_health() -> int:
 	return stats["health"]
 
 func save_game_state() -> Dictionary:
-	return stats
+	return stats.duplicate()
 	
 func load_game_state(game_state: Dictionary):
 	stats = game_state

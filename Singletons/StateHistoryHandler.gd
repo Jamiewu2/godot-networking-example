@@ -6,6 +6,8 @@ var state_history: Array = []
 var frame_num: int = 0
 
 func _ready():
+	yield(get_tree().root, "ready")
+	
 	set_process_priority(-2)
 
 func rollback_and_reapply(num_frames: int):
@@ -62,6 +64,6 @@ func do_networking(delta: float):
 	add_state_to_history(delta)
 
 	if GlobalSettings.DEBUG_ALWAYS_ROLLBACK:
-		var num_frames = 2
+		var num_frames = 25
 		for i in range(2):
 			rollback_and_reapply(num_frames)

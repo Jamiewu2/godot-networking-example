@@ -12,12 +12,13 @@ func _ready():
 	set_process_priority(-4)
 	
 
+#TODO change this to write to a buffer, that swaps every physics process
 func _unhandled_input(event):
 	if GlobalSettings.DEBUG:
 		print("[InputHandler]: " + str(event))
 		
-	input_vector = _get_input_vector()
-	_set_button_press_state()
+#	input_vector = _get_input_vector()
+#	_set_button_press_state()
 	
 func _get_input_vector() -> Vector3:
 	var input_vector = Vector3.ZERO
@@ -44,7 +45,7 @@ func _set_button_press_state():
 		
 func get_input_state() -> Array:
 	var input_state = [input_vector, is_attack_button_pressed, is_spawn_button_pressed]
-	return input_state.duplicate()
+	return input_state
 	
 func load_input_state(input_state: Array):
 	input_vector = input_state[0]
@@ -62,6 +63,9 @@ func handle_rewind_button_just_pressed():
 		is_just_pressed = true
 		
 func _physics_process(_delta: float):
+	input_vector = _get_input_vector()
+	_set_button_press_state()
+	
 	handle_rewind_button_just_pressed()
 
 ################################
