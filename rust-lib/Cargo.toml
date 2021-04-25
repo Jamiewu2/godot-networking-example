@@ -1,5 +1,5 @@
 [package]
-name = "my-gdnative-lib"
+name = "rust-lib"
 version = "0.1.0"
 authors = ["Jamie Wu <jamiewu2@illinois.edu>"]
 edition = "2018"
@@ -11,4 +11,3 @@ crate-type = ["cdylib"]
 
 [dependencies]
 gdnative = "0.9.3"
-

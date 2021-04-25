@@ -1,0 +1,1 @@
+New-Item -ItemType SymbolicLink -Path "godot-networking-example\Code\rust_lib.dll" -Target "rust-lib\target\debug\rust_lib.dll"
